@@ -28,6 +28,10 @@ class BankAccount implements IfaceBankAccount
         $your_balance       =   $account->balance;
         $transfer_amount    =   $amount->value();
 
+        if($transfer_amount > $my_balance){
+            throw new Exception("Withdrawl amount larger than balance");
+        }
+
         $this->balance      =   $my_balance - $transfer_amount;
         $account->balance   =   $your_balance + $transfer_amount;
     }
@@ -38,6 +42,12 @@ class BankAccount implements IfaceBankAccount
         $withdraw               =   $amount->value();
         $your_balance           =   $this->balance();
         $your_balance           =   (is_float($your_balance)) ? $your_balance : $your_balance->value();
-        $this->balance          =   $your_balance - $withdraw;
+
+        
+        if($withdraw > $your_balance){
+            throw new Exception("Withdrawl amount larger than balance");
+        } else {
+            $this->balance          =   $your_balance - $withdraw;
+        }
     }
 }
